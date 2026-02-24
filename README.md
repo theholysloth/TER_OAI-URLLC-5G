@@ -1,33 +1,61 @@
-<<<<<<< HEAD
 # OAI 5G URLLC Network Evaluation
-
-![Alt text](/figures/setup.png)
-
 ## Overview
-This repository provides comprehensive instructions and necessary files for evaluating an end-to-end Ultra-Reliable Low-Latency Communication (URLLC) 5G Network using OpenairInterface (OAI). URLLC is a key component of 5G networks, offering highly reliable and low-latency communication ideal for critical applications such as autonomous driving, industrial IoT, and remote surgery.
 
-We offer a complete suite of OAI Core deployment files, incorporating various User Plane Function (UPF) implementations, including SPGWU, VPP, and eBPF.
-In addition, this project guides you through system optimizations and RAN configurations that are essential for enabling URLLC capabilities in your 5G network setup.
+This repository provides the experimental framework used for the evaluation of Ultra-Reliable Low-Latency Communication (URLLC) performance in a fully virtualized 5G Standalone (SA) architecture based on OpenAirInterface (OAI).
+
+The objective of this project is to compare different 5G User Plane Function (UPF) implementations under URLLC-oriented traffic conditions. Three packet processing paradigms are evaluated:
+
+- SPGWU (Linux kernel-based implementation)
+- VPP/DPDK (user-space polling architecture)
+- eBPF/XDP (in-kernel programmable data plane)
+
+All experiments are conducted in a Docker-based environment using OAI 5G Core and UERANSIM for gNB and UE emulation.
+
+The repository includes deployment scripts, configuration files, traffic generation procedures, and performance measurement tools used in the associated academic report.
+
+---
 
 ## Prerequisites
 
-### System
-- Laptop/Desktop/Server for OAI CN5G and OAI gNB
-    - Operating System: [Ubuntu 22.04 LTS](https://releases.ubuntu.com/22.04/ubuntu-22.04.1-desktop-amd64.iso)
-    - CPU: 16 cores, 11th Gen Intel Core i7-11700K
-    - RAM: 32 GB
-- Laptop/Desktop/Server for UE
-    - Operating System: Microsoft Windows 10 x64 / Ubuntu 20.04 LTS
-    - CPU: 4 cores x86_64
-    - RAM: 8 GB
-    - Windows driver for Quectel MUST be equal or higher than version **2.2.4**
-    - The Ubuntu driver can be found under quectel-ue directory: Simply run: `make && make install`
-- [USRP B210](https://www.ettus.com/all-products/ub210-kit/), [USRP N300](https://www.ettus.com/all-products/USRP-N300/) or [USRP X300](https://www.ettus.com/all-products/x300-kit/)
-    - Please identify the network interface(s) on which the USRP is connected and update the gNB configuration file. We are using N310 with 2x2 MIMO configuration.
-- Quectel RM500Q
-    - Module, M.2 to USB adapter, antennas, and SIM card
-    - Firmware version of Quectel MUST be equal or higher than **RM500QGLABR11A06M4G**
-    - Ideally with MIMO 2x2
+### System Requirements
+
+All components run on a single host machine.
+
+- Operating System: Ubuntu 22.04 LTS
+- CPU: Multi-core x86_64 processor (tested on Intel Core i7-11700K)
+- RAM: Minimum 16 GB (32 GB recommended)
+- Docker & Docker Compose
+- Python 3 (for result parsing and graph generation)
+
+### Software Components
+
+- OpenAirInterface 5G Core (containerized deployment)
+- UERANSIM (gNB and UE simulation)
+- iperf3 (traffic generation)
+- Standard Linux networking utilities (ping, iproute2)
+
+---
+
+## Architecture
+
+The experimental setup consists of:
+
+- Simulated UE (UERANSIM)
+- Simulated gNB (UERANSIM)
+- OAI 5G Core Network (AMF, SMF, UPF, NRF, UDM, AUSF)
+- Interchangeable UPF implementations
+- External Data Network (DN)
+- Fully virtualized Docker networking environment
+
+No physical radio hardware or external 5G modem is required.
+
+---
+
+## Scope and Limitations
+
+This framework is intended for controlled comparative evaluation of software-based UPF implementations. 
+
+All experiments are conducted in a virtualized single-host environment without hardware offloading (e.g., SR-IOV, RSS, checksum offloading). Therefore, results should be interpreted within the constraints of software-only packet processing.
 
 ### Docker Installation
 
