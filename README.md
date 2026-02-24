@@ -65,7 +65,7 @@ sudo apt-get update
 ```
 Install Docker:
 ```
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt install docker.io docker-compose-plugin
 ```
 Enable & start Docker with the following commands:
 ```
@@ -88,14 +88,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 ## System Optimizations
+The following optimizations were applied to improve packet processing stability in a virtualized single-host environment.
 
-- You need to install Real-Time Ubuntu kernels from [here](https://www.acontis.com/en/building-a-real-time-linux-kernel-in-ubuntu-preemptrt.html) to enable real-time perfomance
-- Enable Performance Mode on CPU cores: `cpupower idle-set -D 0`
-- Use a new UHD version (4.6.0 and newer)
-- Install the XG FPGA image flavor for 10 Gbps speeds. More info on [Ettus](https://kb.ettus.com/USRP_Host_Performance_Tuning_Tips_and_Tricks) website.
-- Increase Ethernet Ring Buffers: `sudo ethtool -G <ifname> rx 4096 tx 4096`
-- Disable hyper-threading in the BIOS (This step is optional)
-- Optional: Disable KPTI Protections for Spectre/Meltdown for more performance. **This is a security risk.** Add `mitigations=off nosmt` in your grub config and update grub.
 - Enable Governor CPU and adjust network buffers:
 ```
 for ((i=0;i<$(nproc);i++)); do sudo cpufreq-set -c $i -r -g performance; done
@@ -106,68 +100,103 @@ sudo sysctl -w net.core.rmem_default=62500000
 sudo ethtool -G enp1s0f0 tx 4096 rx 4096
 ```
 
-- Adjust Ethernet MTU
+Docker Resource Considerations
 
-  -  This applies to Ethernet connected USRPs (N2xx, N3xx, X3xx, E320).
+All 5G components (UE, gNB, Core Network) run on a single host machine.
+Ensure that:
 
-  - For 1 Gigabit connections, the MTU should be set to 1500.
+No heavy background applications are running
 
-  - For 10 Gigabit connections, the MTU should be set to 9000.
+CPU isolation or task pinning may be used if required
 
-  - It is important to set the value and not leave it is automatic
+Sufficient RAM is available
+
+
 
 ## UPF Solutions Evaluation
 
+This framework enables the deployment and comparative evaluation of three different UPF implementations:
 
-Each UPF deployment has one folder for the core network configuration (i.e. spgwu, vpp, p4) and one folder for the respective UERANSIM deployment (i.e. UERASNIM-spgwu, UERASNIM-vpp, UERASNIM-p4). You can manually deploy everything by using the docker-compose -f command. However, we have generated scripts for deploying and destroying each deployment more easily. To isolate our focus only on the UPF perfomance we 
+- SPGWU (Kernel-based, interrupt-driven model)
+- VPP/DPDK (User-space polling architecture)
+- eBPF/XDP (In-kernel programmable data plane)
+
+Each UPF deployment includes:
+
+- A dedicated Core Network configuration
+- A corresponding UERANSIM deployment (gNB + UE)
+- Deployment and teardown scripts for reproducibility
+
+To ensure fair comparison, only one UPF implementation is active at a time.  
+The entire Core Network stack is redeployed before switching to another UPF in order to avoid configuration persistence or interference.
+
+---
 
 ### SPGWU-UPF
 
-The OpenAirInterface's 'oai-spgwu-tiny' is an enhanced version of the Serving and Packet Data Network Gateway User plane (SPGW-U), a key component in 4G/LTE networks for routing and forwarding user data. Initially designed for 4G/LTE based on 3GPP standards, it has been updated to also support 5G networks.
+The OpenAirInterface `oai-spgwu-tiny` implementation is a kernel-based UPF relying on the traditional Linux networking stack.  
+It follows an interrupt-driven packet processing model and represents the baseline architecture in this study.
 
-![Alt text](/figures/spgwu_arch.png)
+#### Deployment
 
-To Deploy this setup you have to execute the following commands on your host machine:
+Deploy the 5G Core Network with SPGWU:
 
-* Deploy the 5G Core Network based on SPGWU:
-```
-sudo bash scripts/deploy-spgwu-based-core.sh
-```
-* Deploy 5G RAN based on UERANSIM:
-```
-sudo bash scripts/deploy-ueransim-spgwu.sh
+```bash
+bash scripts/deploy-spgwu-based-core.sh
 ```
 
-When both commands are executed, your SPGWU-based deployment should be working properly. 
+Deploy the simulated RAN (UERANSIM):
 
-- You may check the status of your containers with:
-```
-sudo docker ps -a
-```
-- You may check the logs of each core network function by executing the following command (generates .txt log files):
-```
-sudo bash scripts/generate-logs-spgwu.sh
-```
-- You can destroy the whole architecture by executing the following commands:
-```
-sudo bash scripts/destroy-spgwu-based-core.sh
-```
-```
-sudo bash scripts/destroy-spgwu-ueransim.sh
+```bash
+bash scripts/deploy-ueransim-spgwu.sh
 ```
 
+After execution, verify that:
 
-### VPP-UPF: 
-
-Vector Packet Processing (VPP) is a high-speed, high-efficiency packet processing framework that enhances data plane performance in networks. Unlike traditional methods, VPP uses vector processing to handle multiple packets simultaneously, leveraging modern CPUs' SIMD capabilities for parallel processing. This results in high throughput and low latency, often outperforming specialized hardware. VPP incorporates the Data Plane Development Kit (DPDK) for direct NIC access, bypassing the OS network stack, and distributing workloads across multiple CPU cores for scalability. VPP is particularly beneficial in 5G networks, where it's used for User Plane Function solutions, handling high-speed data with low response times.
-
-![Alt text](/figures/vpp_arch.png)
-
-To Deploy this setup you have to execute the following commands on your host machine:
-
-* Deploy the 5G Core Network based on VPP:
+All containers are running and healthy:
+```bash
+docker ps
 ```
-sudo bash scripts/deploy-vpp-based-core.sh
+
+The UE has successfully established a PDU session (check for uesimtun0 interface):
+```bash
+docker logs ue
+```
+Teardown
+
+To stop and remove the deployment:
+```bash
+bash scripts/destroy-spgwu-based-core.sh
+bash scripts/destroy-spgwu-ueransim.sh
+```
+
+### VPP-UPF (DPDK-Based Architecture)
+
+The VPP-based UPF relies on the Vector Packet Processing (VPP) framework combined with DPDK (Data Plane Development Kit).  
+Unlike traditional interrupt-driven packet processing, VPP follows a **poll-mode architecture**, where CPU cores continuously poll network queues instead of reacting to hardware interrupts.
+
+This model provides several advantages:
+
+- Reduced context-switch overhead
+- Improved cache locality
+- Batch (vectorized) packet processing
+- Better scalability under high packet rates
+
+VPP processes packets in batches using SIMD (Single Instruction, Multiple Data) instructions, enabling multiple packets to be handled per CPU cycle.  
+DPDK allows direct user-space access to network interfaces, bypassing the traditional Linux kernel networking stack.
+
+In this study, the VPP-UPF represents the **user-space polling paradigm**, serving as the high-performance reference architecture.
+
+> Note: In our experimental setup, VPP runs inside a Docker container without SR-IOV or hardware offloading. Therefore, performance reflects software-only packet processing capabilities rather than near line-rate NIC acceleration.
+
+---
+
+#### Deployment
+
+Deploy the 5G Core Network with VPP-UPF:
+
+```bash
+bash scripts/deploy-vpp-based-core.sh
 ```
 * Deploy 5G RAN based on UERANSIM:
 ```
@@ -180,6 +209,11 @@ When both commands are executed, your VPP-based deployment should be working pro
 ```
 sudo docker ps -a
 ```
+-The UE has successfully established a PDU session (presence of uesimtun0)
+```bash
+docker logs ue
+```
+
 - You may check the logs of each core network function by executing the following command (generates .txt log files):
 ```
 bash scripts/generate-logs-vpp.sh
@@ -191,17 +225,33 @@ sudo bash scripts/destroy-vpp-based-core.sh
 ```
 sudo bash scripts/destroy-vpp-ueransim.sh
 ```
-### EBPF-UPF:
+### eBPF/XDP-UPF (In-Kernel Programmable Data Plane)
 
-eBPF (Extended Berkeley Packet Filter) is a powerful technology that allows code to run in the kernel space within a safe, restricted environment. It has evolved significantly since its origins as a packet filtering mechanism. eBPF UPF offers further capabilities including security, networking, and performance monitoring because it's highly efficient and flexible. Note that we're using the generic EBPF version which doesn't offload the processing to the net cards. The performance could vary from machine to machine.
+The eBPF-based UPF relies on eBPF (extended Berkeley Packet Filter) and XDP (eXpress Data Path) to process packets directly inside the Linux kernel.
 
-![Alt text](/figures/ebpf_arch.png)
+Unlike traditional kernel-based forwarding (SPGWU) or user-space polling (VPP/DPDK), eBPF enables programmable packet processing at an earlier stage in the networking stack.  
+With XDP, packets can be intercepted at the driver level before the creation of full kernel socket buffers (`sk_buff`), reducing processing overhead.
 
- To Deploy this setup you have to execute the following commands on your host machine:
+This architecture represents a **programmable in-kernel data plane**, combining flexibility and performance.
 
-* Deploy the 5G Core Network based on EBPF:
-```
-sudo bash scripts/deploy-ebpf-based-core.sh
+In this project, the UPF operates in **XDP Generic mode**:
+
+- Packets are intercepted after partial traversal of the Linux networking stack.
+- No hardware offloading or Native XDP driver support is used.
+- Processing remains fully software-based.
+
+Because Generic mode does not attach directly to the NIC driver, it introduces additional overhead compared to Native XDP. As a result, the observed performance reflects the limitations of in-kernel programmable processing in a virtualized environment.
+
+> Performance may vary depending on CPU architecture, kernel version, and driver support.
+
+---
+
+#### Deployment
+
+Deploy the 5G Core Network with eBPF/XDP-UPF:
+
+```bash
+bash scripts/deploy-ebpf-based-core.sh
 ```
 * Deploy 5G RAN based on UERANSIM:
 ```
@@ -213,6 +263,7 @@ When both commands are executed, your EBPF-based deployment should be working pr
 - You may check the status of your containers with:
 ```
 sudo docker ps -a
+docker logs ue
 ```
 - You may check the logs of each core network function by executing the following command (generates .txt log files):
 ```
@@ -226,180 +277,72 @@ sudo bash scripts/destroy-ebpf-based-core.sh
 sudo bash scripts/destroy-ebpf-ueransim.sh
 
 ```
+## RAN Configuration (UERANSIM-Based Simulation)
 
-Among these UPFs for URLLC, it is recommended to either utilize VPP or URLLC in your setup!
+In this project, the Radio Access Network is fully simulated using UERANSIM.  
+No physical gNB, USRP device, or real radio transmission is involved.
 
-## RAN Configurations
+The simulated RAN consists of:
 
-Before heading to the configurations let's first install the OAI RAN with E2 capabilities:
+- A virtual gNB (UERANSIM container)
+- A virtual UE (UERANSIM container)
 
-Install and deploy the OAI 5G SA gNB as follows
+The gNB communicates with the OAI 5G Core over standard N2 and N3 interfaces within a Docker network.
 
-## <a name='BuildOAIgNB'></a>5.1 Build OAI gNB
+---
+
+### UERANSIM Configuration
+
+The configuration files are located in the `demo/` directory and include:
+
+- `gnb.yaml`
+- `ue.yaml`
+
+Key parameters:
+
+- PLMN (MCC/MNC)
+- S-NSSAI (Slice configuration)
+- SUPI/IMSI consistency with UDM database
+- AMF IP address
+- UE tunnel interface (uesimtun0)
+
+---
+
+### Important Notes
+
+- Since no physical radio layer is used, parameters such as TDD periodicity, MIMO configuration, and frame structure are not applicable.
+- Latency measurements therefore reflect:
+  - Core Network processing
+  - Container networking overhead
+  - Software packet processing characteristics
+
+They do not include physical-layer transmission delay.
+
+---
+
+
+ ## Traffic Generation and Measurement
+
+All performance measurements were conducted using standard Linux networking tools.
+
+### Latency Measurement
+
+Round-Trip Time (RTT) was measured using ICMP echo requests:
 
 ```bash
-# Get openairinterface5g source code
-git clone https://gitlab.eurecom.fr/oai/openairinterface5g.git ~/openairinterface5g
-cd ~/openairinterface5g
-git checkout develop
-
-# Install OAI dependencies
-cd ~/openairinterface5g/cmake_targets
-./build_oai -I
-
-# Build OAI gNB
-cd ~/openairinterface5g
-source oaienv
-cd cmake_targets
-./build_oai -w USRP --ninja --gNB -c --build-e2
+docker exec -it ue ping -I uesimtun0 <DN_IP> -c 50
 ```
+Traffic was explicitly bound to the UE tunnel interface (uesimtun0) to ensure full traversal of the 5G user plane (GTP-U encapsulation and decapsulation).
 
-* All the important modifications are gathered in the table below:
+Throughput and Packet Loss
 
-![Alt text](/figures/table.png)
+UDP traffic was generated using iperf3:
 
-The configuration files can be found under the ran_confs directory of the repo. All confs are specifically for 2X2 MIMO N310 USRP:
-
-- For the default 5ms TDD cycle duration:  `gnb-78-2x2-106prb-5ms-tdd.conf`
-- For the 2.5ms TDD cycle duration: ` gnb-78-2x2-106prb-2.5ms-tdd.conf`
-- For the 2ms TDD cycle duration: ` gnb-78-2x2-106prb-2ms-tdd.conf`
-
-
-
-**For 2.5ms TDD**
-
-
-
+Uplink:
+```bash
+docker exec -it ue iperf3 -c <DN_IP> -u -b <rate> -t 30 -B <UE_TUN_IP>
 ```
-     referenceSubcarrierSpacing                                    = 1;
-     dl_UL_TransmissionPeriodicity                                 = 5;
-     nrofDownlinkSlots                                             = 3;
-     nrofDownlinkSymbols                                           = 6;
-     nrofUplinkSlots                                               = 1;
-     nrofUplinkSymbols                                             = 4;
+Downlink: 
+```bash
+docker exec -it ue iperf3 -c <DN_IP> -u -b <rate> -t 30 -B <UE_TUN_IP>
 ```
-
-
-**For 2ms TDD**
-
-```
-     referenceSubcarrierSpacing                                    = 1;
-     dl_UL_TransmissionPeriodicity                                 = 4;
-     nrofDownlinkSlots                                             = 2;
-     nrofDownlinkSymbols                                           = 6;
-     nrofUplinkSlots                                               = 1;
-     nrofUplinkSymbols                                             = 4;
-```
-
-Changing the transmission periodicity for TDD will allow you to get lower latency values.
-
-![DLULLatencyPeriodicity](figures/DLULlatency.png)
-
-In TDD, the transmission is divided into time domain, means at one moment of time either « D » downlink subframe is transmitted or « U » for uplink, and then we have « S » Special subframe which comes when there is a transition from downlink subframe to uplink subframe
-
-*For higher throughput – the frame structure should contain a high number of consecutive Downlinks (D)
-
-*For higher uplink data – the frame structure should contain a high number of consecutive Uplinks (U)
-
-*For lower latency and more accurate coverage (and higher speed mobile) – the frame structure should have a lower number of consecutive Downlinks (D) and Uplinks and more frequent switching. More frequent switching decreases throughput.
-
-
-You can validate the settings by trying to ping the UPF and observing how these settings affect the latency components.
-
-- Make sure you have this in the MACRLC section of the configuration file for the UL max frame inactivity :
-
-`ulsch_max_frame_inactivity=0;`
-
-This guarantees UL is scheduled in every TDD period with the minimal UL allocation (5 PRBs by default, mcs 9). You might want to increase this minimal allocation to something like :
-
-```
-min_grant_prb = 20;
-min_grant_mcs = 16;
-```
-
- - Also modify the `sl_ahead` in the RU section: should be 5 for 2.5 ms and 4 for 2ms
-
-
-   Before running the softmodems ensure the following:
-
-* The MCC, MNC, TAC (tracking_area_code) and S-NSSAI (SST and SD) parameters should be the same as the values seen in the core configuration files.
-* To configure the connection between the core and the gNB, you need to set the correct AMF parameters (amf_ip_address) to the address of the AMF and the correct network interfaces (NETWORK_INTERFACES).
-* The selected frequency band and configuration should be supported by the UE, we used TDD band 78 with the QUECTEL UE.
-
-
-**For N300 USRP:**
-`sudo ./nr-softmodem -O gnb-78-2x2-106prb-2ms-tdd.conf --sa --usrp-tx-thread-config 1`
-
-- To reduce the number of LDPC decoder iterations, which will make the LDPC decoder take less time add this as a running argument in the command: `--L1s.[0].max_ldpc_iterations 4`
-- To experiment with the various UL MAX MCS: `--MACRLCs.[0].ul_max_mcs 6`.
-
-
-
-## (Optional) XApp Measurements
-
-- To collect various measurements from MAC, RLC, and PDCP layers you can use our xapp (which can be found in xapp directory), which collects the following metrics and stores them to CSV files for further preprocessing:
-
-
-**MAC Layer Metrics** 
-
-The following metrics are collected from the MAC layer:
-
-- **Timestamp**: The time at which the metrics were collected.
-- **RNTI**: Radio Network Temporary Identifier.
-- **CQI**: Channel Quality Indicator.
-- **PUSCH SNR**: Signal-to-Noise Ratio on the Physical Uplink Shared Channel.
-- **UL BLER**: Uplink Block Error Rate.
-- **DL BLER**: Downlink Block Error Rate.
-- **UL MCS1**: Uplink Modulation and Coding Scheme 1.
-- **UL MCS2**: Uplink Modulation and Coding Scheme 2.
-- **DL MCS1**: Downlink Modulation and Coding Scheme 1.
-- **DL MCS2**: Downlink Modulation and Coding Scheme 2.
-- **UL Throughput**: Uplink Throughput.
-- **DL Throughput**: Downlink Throughput.
-
-**RLC Layer Metrics**
-
-Metrics gathered from the RLC layer include:
-
-- **Timestamp**: The time at which the metrics were collected.
-- **TXPDU WT MS**: Transmission PDU Wait Time in Milliseconds.
-- **TXBUF OCC Bytes**: Transmission Buffer Occupancy in Bytes.
-- **RXBUF OCC Bytes**: Reception Buffer Occupancy in Bytes.
-- **TXPDU RETX PKTS**: Transmission PDU Retransmitted Packets.
-- **RXPDU DUP PKTS**: Received PDU Duplicate Packets.
-- **TXPDU DD PKTS**: Transmission PDU Discarded Packets.
-- **RXPDU DD PKTS**: Received PDU Discarded Packets.
-- **TXPDU Segmented**: Transmission PDU Segmented.
-- **RXPDU Status PKTS**: Received PDU Status Packets.
-- **TXSDU PKTS**: Transmission SDU Packets.
-- **RXSDU PKTS**: Received SDU Packets.
-
-**PDCP Layer Metrics**
-
-From the PDCP layer, the `xapp` collects:
-
-- **Timestamp**: The time at which the metrics were collected.
-- **RXPDU OO PKTS**: Received PDU Out Of Order Packets.
-- **RXPDU OO Bytes**: Received PDU Out Of Order Bytes.
-- **RXPDU DD PKTS**: Received PDU Discarded Packets.
-- **RXPDU DD Bytes**: Received PDU Discarded Bytes.
-- **RXPDU RO Count**: Received PDU Reordering Count.
-- **TXPDU PKTS**: Transmission PDU Packets.
-- **TXPDU Bytes**: Transmission PDU Bytes.
-- **RXPDU PKTS**: Received PDU Packets.
-- **RXPDU Bytes**: Received PDU Bytes.
-- **TXSDU PKTS**: Transmission SDU Packets.
-- **TXSDU Bytes**: Transmission SDU Bytes.
-- **RXSDU PKTS**: Received SDU Packets.
-- **RXSDU Bytes**: Received SDU Bytes.
-
-To run this xapp you need to install FlexRIC. Please refer to this [tutorial](https://gitlab.eurecom.fr/oai/openairinterface5g/-/blob/develop/openair2/E2AP/README.md)
-
-## (Optional) One-Way Latency Measurements
-
-One-latency measurements are very important in order to evaluate URLLC systems. We're taking one-way latency measurements via the [owamp tool](https://github.com/perfsonar/owamp). We have prepared an install script in the scripts directory referred to as owamp-install.sh . You can install it on the external-network/core side and on the UE to get the one-way measurements.
-
-=======
-# TER_OAI-URLLC-5G
-Experimental evaluation of SPGWU, DPDK and eBPF/XDP UPF implementations for URLLC performance in an OAI-based 5G Standalone architecture.
->>>>>>> 7d82f3b901995d97effd22a5ee0f67a2f6e75d19
