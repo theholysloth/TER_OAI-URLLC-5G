@@ -1,0 +1,12 @@
+tracepoint:net:netif_receive_skb
+/str(args->name) == "eth0"/
+{
+  @t[args->skbaddr] = nsecs;
+}
+
+tracepoint:net:netif_receive_skb
+/str(args->name) == "tun0" && @t[args->skbaddr]/
+{
+  @lat_us = hist((nsecs - @t[args->skbaddr]) / 1000);
+  delete(@t[args->skbaddr]);
+}

@@ -1,0 +1,43 @@
+1771444757
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.11MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444760
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.11MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444762
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.11MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444765
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.16%     77.29MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444767
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.24MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444770
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.24MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444772
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.24MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444775
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.15%     77.41MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444778
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.35MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444780
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.35MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444783
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.36MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444785
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.15%     77.45MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444788
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.45MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444790
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   BLOCK I/O     PIDS
+4ac3fccebdf3   oai-upf   0.00%     77.45MiB / 30.95GiB   0.24%     0B / 0B   0B / 8.19kB   10
+1771444793

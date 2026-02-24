@@ -1,0 +1,40 @@
+1771674140
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   0.00%     34.71MiB / 30.95GiB   0.11%     12.7GB / 10.6GB   36.7MB / 16.4kB   20
+1771674143
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   33.64%    34.71MiB / 30.95GiB   0.11%     12.7GB / 10.6GB   36.7MB / 16.4kB   20
+1771674145
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   33.39%    34.71MiB / 30.95GiB   0.11%     12.8GB / 10.6GB   36.7MB / 16.4kB   20
+1771674148
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   36.35%    35.04MiB / 30.95GiB   0.11%     12.8GB / 10.7GB   36.7MB / 16.4kB   20
+1771674150
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   33.34%    34.71MiB / 30.95GiB   0.11%     12.8GB / 10.7GB   36.7MB / 16.4kB   20
+1771674153
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   33.35%    34.71MiB / 30.95GiB   0.11%     12.8GB / 10.7GB   36.7MB / 16.4kB   20
+1771674156
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   32.97%    34.71MiB / 30.95GiB   0.11%     12.9GB / 10.8GB   36.7MB / 16.4kB   20
+1771674158
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   36.36%    35.03MiB / 30.95GiB   0.11%     12.9GB / 10.8GB   36.7MB / 16.4kB   20
+1771674161
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   33.42%    34.73MiB / 30.95GiB   0.11%     12.9GB / 10.8GB   36.7MB / 16.4kB   20
+1771674163
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   33.19%    34.71MiB / 30.95GiB   0.11%     13GB / 10.9GB   36.7MB / 16.4kB   20
+1771674166
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   33.81%    34.71MiB / 30.95GiB   0.11%     13GB / 10.9GB   36.7MB / 16.4kB   20
+1771674168
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   37.10%    34.86MiB / 30.95GiB   0.11%     13GB / 10.9GB   36.7MB / 16.4kB   20
+1771674171
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O         PIDS
+c073f4f43198   oai-spgwu   33.94%    34.71MiB / 30.95GiB   0.11%     13.1GB / 11GB   36.7MB / 16.4kB   20
+1771674173

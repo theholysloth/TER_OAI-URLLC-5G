@@ -1,0 +1,16 @@
+=== DATE ===
+mar. 17 févr. 2026 13:51:08 CET
+=== KERNEL ===
+Linux holy-ThinkPad-L390 6.14.0-37-generic #37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+=== CPU GOVERNOR cpu0 ===
+performance
+=== SYSCTL BUFFERS ===
+net.core.rmem_max = 62500000
+net.core.wmem_max = 62500000
+net.core.rmem_default = 62500000
+net.core.wmem_default = 62500000
+=== IFACES ===
+lo               UNKNOWN        00:00:00:00:00:00 <LOOPBACK,UP,LOWER_UP> 
+enp0s31f6        DOWN           48:2a:e3:7e:72:7d <NO-CARRIER,BROADCAST,MULTICAST,UP> 
+wlp0s20f3        UP             0c:7a:15:b9:94:3e <BROADCAST,MULTICAST,UP,LOWER_UP> 
+docker0          DOWN           ce:c7:90:70:b7:2a <NO-CARRIER,BROADCAST,MULTICAST,UP> 

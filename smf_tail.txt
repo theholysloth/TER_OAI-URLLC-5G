@@ -1,0 +1,146 @@
+[2026-02-18 14:25:52.611] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:25:52.611] [smf_app] [info] 		 Volume Total    -> 0
+[2026-02-18 14:25:52.611] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:25:52.611] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:25:52.611] [smf_app] [debug] Send request to N11 to trigger QoS Monitoring (Usage Report) Event, SMF Context-related SEID  0x3
+[2026-02-18 14:25:52.611] [smf_app] [debug] No subscription available for this event
+[2026-02-18 14:25:52.611] [smf_app] [info] Sending ITTI message 31itti_n4_session_report_response to task TASK_SMF_N4
+[2026-02-18 14:25:56.013] [smf_app] [info] TIME-OUT event timer id 1923
+[2026-02-18 14:25:56.014] [smf_app] [debug] Send ITTI msg to N11 task to trigger NRF Heartbeat
+[2026-02-18 14:25:56.014] [smf_app] [debug] Set a timer to the next Heart-beat (10)
+[2026-02-18 14:25:56.014] [smf_sbi] [debug] Send NF Update to NRF (HTTP version 2)
+[2026-02-18 14:25:56.014] [smf_sbi] [debug] Send NF Update to NRF, Msg body [{"op":"replace","path":"/nfStatus","value":"REGISTERED"}]
+[2026-02-18 14:25:56.014] [smf_sbi] [debug] Send NF Update to NRF, NRF URL 192.168.70.130:8080/nnrf-nfm/v1/nf-instances/f7ba92ab-7de9-43b6-b8ae-5301cb5bf08f
+[2026-02-18 14:25:56.014] [smf_sbi] [debug] Promise ID generated 1058
+[2026-02-18 14:25:56.014] [smf_app] [debug] Got response with HTTP code  204!
+[2026-02-18 14:25:56.014] [smf_app] [debug] Prepare to make promise id 1058 ready!
+[2026-02-18 14:25:56.014] [smf_app] [debug] Trigger process response: Set promise with ID 1058 to ready
+[2026-02-18 14:25:56.014] [smf_sbi] [debug] Got result for promise ID 1058
+[2026-02-18 14:25:56.014] [smf_sbi] [debug] Response data 
+[2026-02-18 14:25:56.014] [smf_sbi] [debug] NF Instance Registration, response from NRF, HTTP Code: 204
+[2026-02-18 14:25:56.014] [smf_sbi] [debug] NF Update, got successful response from NRF
+[2026-02-18 14:25:56.014] [smf_app] [debug] NF Update NF response
+[2026-02-18 14:25:56.014] [smf_app] [debug] Set NRF Heartbeat timer (10)
+[2026-02-18 14:25:56.175] [smf_n4 ] [info] handle_receive(167 bytes)
+[2026-02-18 14:25:56.175] [smf_n4 ] [debug] handle_receive_pfcp_msg msg type 56 length 163
+[2026-02-18 14:25:56.175] [smf_n4 ] [info] Received N4 SESSION REPORT REQUEST from an UPF
+[2026-02-18 14:25:56.175] [smf_app] [info] 		 SEID            -> 1
+[2026-02-18 14:25:56.175] [smf_app] [info] 		 UR-SEQN         -> 290
+[2026-02-18 14:25:56.175] [smf_app] [info] 		 Trigger         -> Periodic Reporting
+[2026-02-18 14:25:56.175] [smf_app] [info] 		 Duration        -> 10
+[2026-02-18 14:25:56.175] [smf_app] [info] 		 NoP    Total    -> 0
+[2026-02-18 14:25:56.175] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:25:56.175] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:25:56.175] [smf_app] [info] 		 Volume Total    -> 0
+[2026-02-18 14:25:56.175] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:25:56.175] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:25:56.175] [smf_app] [debug] Send request to N11 to trigger QoS Monitoring (Usage Report) Event, SMF Context-related SEID  0x1
+[2026-02-18 14:25:56.175] [smf_app] [debug] No subscription available for this event
+[2026-02-18 14:25:56.175] [smf_app] [info] Sending ITTI message 31itti_n4_session_report_response to task TASK_SMF_N4
+[2026-02-18 14:25:56.522] [smf_n4 ] [info] TIME-OUT event timer id 1927
+[2026-02-18 14:26:01.526] [smf_n4 ] [info] TIME-OUT event timer id 1928
+[2026-02-18 14:26:01.526] [smf_n4 ] [info] PFCP HEARTBEAT PROCEDURE hash 8884669346021156474 starting
+[2026-02-18 14:26:01.530] [smf_n4 ] [info] handle_receive(16 bytes)
+[2026-02-18 14:26:01.530] [smf_n4 ] [debug] handle_receive_pfcp_msg msg type 2 length 12
+[2026-02-18 14:26:02.615] [smf_n4 ] [info] handle_receive(167 bytes)
+[2026-02-18 14:26:02.615] [smf_n4 ] [debug] handle_receive_pfcp_msg msg type 56 length 163
+[2026-02-18 14:26:02.615] [smf_n4 ] [info] Received N4 SESSION REPORT REQUEST from an UPF
+[2026-02-18 14:26:02.615] [smf_app] [info] 		 SEID            -> 3
+[2026-02-18 14:26:02.615] [smf_app] [info] 		 UR-SEQN         -> 171
+[2026-02-18 14:26:02.615] [smf_app] [info] 		 Trigger         -> Periodic Reporting
+[2026-02-18 14:26:02.615] [smf_app] [info] 		 Duration        -> 10
+[2026-02-18 14:26:02.615] [smf_app] [info] 		 NoP    Total    -> 0
+[2026-02-18 14:26:02.615] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:26:02.615] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:26:02.615] [smf_app] [info] 		 Volume Total    -> 0
+[2026-02-18 14:26:02.615] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:26:02.615] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:26:02.615] [smf_app] [debug] Send request to N11 to trigger QoS Monitoring (Usage Report) Event, SMF Context-related SEID  0x3
+[2026-02-18 14:26:02.615] [smf_app] [debug] No subscription available for this event
+[2026-02-18 14:26:02.615] [smf_app] [info] Sending ITTI message 31itti_n4_session_report_response to task TASK_SMF_N4
+[2026-02-18 14:26:06.014] [smf_app] [info] TIME-OUT event timer id 1930
+[2026-02-18 14:26:06.014] [smf_app] [debug] Send ITTI msg to N11 task to trigger NRF Heartbeat
+[2026-02-18 14:26:06.014] [smf_app] [debug] Set a timer to the next Heart-beat (10)
+[2026-02-18 14:26:06.014] [smf_sbi] [debug] Send NF Update to NRF (HTTP version 2)
+[2026-02-18 14:26:06.014] [smf_sbi] [debug] Send NF Update to NRF, Msg body [{"op":"replace","path":"/nfStatus","value":"REGISTERED"}]
+[2026-02-18 14:26:06.014] [smf_sbi] [debug] Send NF Update to NRF, NRF URL 192.168.70.130:8080/nnrf-nfm/v1/nf-instances/f7ba92ab-7de9-43b6-b8ae-5301cb5bf08f
+[2026-02-18 14:26:06.014] [smf_sbi] [debug] Promise ID generated 1062
+[2026-02-18 14:26:06.014] [smf_app] [debug] Got response with HTTP code  204!
+[2026-02-18 14:26:06.014] [smf_app] [debug] Prepare to make promise id 1062 ready!
+[2026-02-18 14:26:06.014] [smf_app] [debug] Trigger process response: Set promise with ID 1062 to ready
+[2026-02-18 14:26:06.014] [smf_sbi] [debug] Got result for promise ID 1062
+[2026-02-18 14:26:06.014] [smf_sbi] [debug] Response data 
+[2026-02-18 14:26:06.014] [smf_sbi] [debug] NF Instance Registration, response from NRF, HTTP Code: 204
+[2026-02-18 14:26:06.014] [smf_sbi] [debug] NF Update, got successful response from NRF
+[2026-02-18 14:26:06.014] [smf_app] [debug] NF Update NF response
+[2026-02-18 14:26:06.014] [smf_app] [debug] Set NRF Heartbeat timer (10)
+[2026-02-18 14:26:06.169] [smf_n4 ] [info] handle_receive(167 bytes)
+[2026-02-18 14:26:06.169] [smf_n4 ] [debug] handle_receive_pfcp_msg msg type 56 length 163
+[2026-02-18 14:26:06.169] [smf_n4 ] [info] Received N4 SESSION REPORT REQUEST from an UPF
+[2026-02-18 14:26:06.169] [smf_app] [info] 		 SEID            -> 1
+[2026-02-18 14:26:06.169] [smf_app] [info] 		 UR-SEQN         -> 291
+[2026-02-18 14:26:06.169] [smf_app] [info] 		 Trigger         -> Periodic Reporting
+[2026-02-18 14:26:06.169] [smf_app] [info] 		 Duration        -> 10
+[2026-02-18 14:26:06.169] [smf_app] [info] 		 NoP    Total    -> 0
+[2026-02-18 14:26:06.169] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:26:06.169] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:26:06.169] [smf_app] [info] 		 Volume Total    -> 0
+[2026-02-18 14:26:06.169] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:26:06.169] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:26:06.169] [smf_app] [debug] Send request to N11 to trigger QoS Monitoring (Usage Report) Event, SMF Context-related SEID  0x1
+[2026-02-18 14:26:06.169] [smf_app] [debug] No subscription available for this event
+[2026-02-18 14:26:06.169] [smf_app] [info] Sending ITTI message 31itti_n4_session_report_response to task TASK_SMF_N4
+[2026-02-18 14:26:06.526] [smf_n4 ] [info] TIME-OUT event timer id 1934
+[2026-02-18 14:26:11.530] [smf_n4 ] [info] TIME-OUT event timer id 1935
+[2026-02-18 14:26:11.530] [smf_n4 ] [info] PFCP HEARTBEAT PROCEDURE hash 8884669346021156474 starting
+[2026-02-18 14:26:11.535] [smf_n4 ] [info] handle_receive(16 bytes)
+[2026-02-18 14:26:11.535] [smf_n4 ] [debug] handle_receive_pfcp_msg msg type 2 length 12
+[2026-02-18 14:26:12.610] [smf_n4 ] [info] handle_receive(167 bytes)
+[2026-02-18 14:26:12.610] [smf_n4 ] [debug] handle_receive_pfcp_msg msg type 56 length 163
+[2026-02-18 14:26:12.610] [smf_n4 ] [info] Received N4 SESSION REPORT REQUEST from an UPF
+[2026-02-18 14:26:12.610] [smf_app] [info] 		 SEID            -> 3
+[2026-02-18 14:26:12.610] [smf_app] [info] 		 UR-SEQN         -> 172
+[2026-02-18 14:26:12.610] [smf_app] [info] 		 Trigger         -> Periodic Reporting
+[2026-02-18 14:26:12.610] [smf_app] [info] 		 Duration        -> 10
+[2026-02-18 14:26:12.610] [smf_app] [info] 		 NoP    Total    -> 0
+[2026-02-18 14:26:12.610] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:26:12.610] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:26:12.610] [smf_app] [info] 		 Volume Total    -> 0
+[2026-02-18 14:26:12.610] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:26:12.610] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:26:12.610] [smf_app] [debug] Send request to N11 to trigger QoS Monitoring (Usage Report) Event, SMF Context-related SEID  0x3
+[2026-02-18 14:26:12.610] [smf_app] [debug] No subscription available for this event
+[2026-02-18 14:26:12.610] [smf_app] [info] Sending ITTI message 31itti_n4_session_report_response to task TASK_SMF_N4
+[2026-02-18 14:26:16.014] [smf_app] [info] TIME-OUT event timer id 1937
+[2026-02-18 14:26:16.014] [smf_app] [debug] Send ITTI msg to N11 task to trigger NRF Heartbeat
+[2026-02-18 14:26:16.014] [smf_app] [debug] Set a timer to the next Heart-beat (10)
+[2026-02-18 14:26:16.014] [smf_sbi] [debug] Send NF Update to NRF (HTTP version 2)
+[2026-02-18 14:26:16.014] [smf_sbi] [debug] Send NF Update to NRF, Msg body [{"op":"replace","path":"/nfStatus","value":"REGISTERED"}]
+[2026-02-18 14:26:16.014] [smf_sbi] [debug] Send NF Update to NRF, NRF URL 192.168.70.130:8080/nnrf-nfm/v1/nf-instances/f7ba92ab-7de9-43b6-b8ae-5301cb5bf08f
+[2026-02-18 14:26:16.014] [smf_sbi] [debug] Promise ID generated 1066
+[2026-02-18 14:26:16.014] [smf_app] [debug] Got response with HTTP code  204!
+[2026-02-18 14:26:16.014] [smf_app] [debug] Prepare to make promise id 1066 ready!
+[2026-02-18 14:26:16.014] [smf_app] [debug] Trigger process response: Set promise with ID 1066 to ready
+[2026-02-18 14:26:16.014] [smf_sbi] [debug] Got result for promise ID 1066
+[2026-02-18 14:26:16.014] [smf_sbi] [debug] Response data 
+[2026-02-18 14:26:16.014] [smf_sbi] [debug] NF Instance Registration, response from NRF, HTTP Code: 204
+[2026-02-18 14:26:16.014] [smf_sbi] [debug] NF Update, got successful response from NRF
+[2026-02-18 14:26:16.014] [smf_app] [debug] NF Update NF response
+[2026-02-18 14:26:16.014] [smf_app] [debug] Set NRF Heartbeat timer (10)
+[2026-02-18 14:26:16.174] [smf_n4 ] [info] handle_receive(167 bytes)
+[2026-02-18 14:26:16.174] [smf_n4 ] [debug] handle_receive_pfcp_msg msg type 56 length 163
+[2026-02-18 14:26:16.174] [smf_n4 ] [info] Received N4 SESSION REPORT REQUEST from an UPF
+[2026-02-18 14:26:16.174] [smf_app] [info] 		 SEID            -> 1
+[2026-02-18 14:26:16.174] [smf_app] [info] 		 UR-SEQN         -> 292
+[2026-02-18 14:26:16.174] [smf_app] [info] 		 Trigger         -> Periodic Reporting
+[2026-02-18 14:26:16.174] [smf_app] [info] 		 Duration        -> 10
+[2026-02-18 14:26:16.174] [smf_app] [info] 		 NoP    Total    -> 0
+[2026-02-18 14:26:16.174] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:26:16.174] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:26:16.174] [smf_app] [info] 		 Volume Total    -> 0
+[2026-02-18 14:26:16.174] [smf_app] [info] 		        Uplink   -> 0
+[2026-02-18 14:26:16.174] [smf_app] [info] 		        Downlink -> 0
+[2026-02-18 14:26:16.174] [smf_app] [debug] Send request to N11 to trigger QoS Monitoring (Usage Report) Event, SMF Context-related SEID  0x1
+[2026-02-18 14:26:16.174] [smf_app] [debug] No subscription available for this event
+[2026-02-18 14:26:16.174] [smf_app] [info] Sending ITTI message 31itti_n4_session_report_response to task TASK_SMF_N4
+[2026-02-18 14:26:16.531] [smf_n4 ] [info] TIME-OUT event timer id 1941
